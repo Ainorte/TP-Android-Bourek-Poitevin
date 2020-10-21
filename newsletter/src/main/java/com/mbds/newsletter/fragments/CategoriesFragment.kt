@@ -42,6 +42,7 @@ class CategoriesFragment: Fragment() {
 
         val categoriesAdapter = CategoryAdapter(categories)
         recyclerView.layoutManager = GridLayoutManager(view.context, 2)
+        recyclerView.hasFixedSize()
         recyclerView.adapter = categoriesAdapter
     }
 }

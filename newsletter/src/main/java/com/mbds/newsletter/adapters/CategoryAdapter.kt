@@ -18,9 +18,9 @@ class CategoryAdapter (private val dataset: List<Category>)
             val catImg = root.findViewById<ImageView>(R.id.category_image)
             val catName = root.findViewById<TextView>(R.id.category_name)
             Glide.with(root)
-                .load(item.image)
-                .placeholder(R.drawable.placeholder)
+                .load("${item.image}?test=${System.currentTimeMillis()}")
                 .fitCenter()
+                .placeholder(R.drawable.placeholder)
                 .into(catImg)
             catName.text = item.name
         }
