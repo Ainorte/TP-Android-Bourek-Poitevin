@@ -1,3 +1,4 @@
+include ':newsletter'
 include ':fragments'
 include ':calculatrice'
 include ':libmbds'
