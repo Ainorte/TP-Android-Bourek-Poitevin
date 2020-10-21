@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mbds.newsletter.R
 import com.mbds.newsletter.model.Category
 
@@ -16,6 +17,11 @@ class CategoryAdapter (private val dataset: List<Category>)
         fun bind(item: Category) {
             val catImg = root.findViewById<ImageView>(R.id.category_image)
             val catName = root.findViewById<TextView>(R.id.category_name)
+            Glide.with(root)
+                .load(item.image)
+                .placeholder(R.drawable.placeholder)
+                .fitCenter()
+                .into(catImg)
             catName.text = item.name
         }
     }

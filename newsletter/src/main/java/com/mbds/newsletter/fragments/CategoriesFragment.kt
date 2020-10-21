@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mbds.newsletter.R
@@ -25,9 +26,22 @@ class CategoriesFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        val categories = listOf<Category>(Category("Politique",""), Category("Faits Divers", ""), Category("Culture", ""))
+        val categories = listOf<Category>(
+            Category("Politique","https://picsum.photos/300/200"),
+            Category("Faits Divers", "https://picsum.photos/300/200"),
+            Category("Culture", "https://picsum.photos/300/200"),
+            Category("Politique","https://picsum.photos/300/200"),
+            Category("Faits Divers", "https://picsum.photos/300/200"),
+            Category("Culture", "https://picsum.photos/300/200"),
+            Category("Politique","https://picsum.photos/300/200"),
+            Category("Faits Divers", "https://picsum.photos/300/200"),
+            Category("Culture", "https://picsum.photos/300/200"),
+            Category("Politique","https://picsum.photos/300/200"),
+            Category("Faits Divers", "https://picsum.photos/300/200"),
+            Category("Culture", "https://picsum.photos/300/200"))
+
         val categoriesAdapter = CategoryAdapter(categories)
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        recyclerView.layoutManager = GridLayoutManager(view.context, 2)
         recyclerView.adapter = categoriesAdapter
     }
 }
