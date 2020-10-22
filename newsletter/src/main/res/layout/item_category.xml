@@ -7,7 +7,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="5dp"
     android:padding="5dp"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:id="@+id/category_item">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,6 +32,10 @@
             app:layout_constraintEnd_toEndOf="@id/category_image"
             app:layout_constraintTop_toTopOf="@id/category_image"
             app:layout_constraintBottom_toBottomOf="@id/category_image"
-            tools:text="Politique" />
+            tools:text="Category"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

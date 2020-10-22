@@ -3,39 +3,45 @@ package com.mbds.newsletter.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.mbds.newsletter.MainActivity
 import com.mbds.newsletter.R
+import com.mbds.newsletter.databinding.ItemCategoryBinding
+import com.mbds.newsletter.fragments.ArticlesFragment
+import com.mbds.newsletter.fragments.CategoriesFragment
 import com.mbds.newsletter.model.Category
+import com.mbds.newsletter.tools.getName
+import com.mbds.newsletter.tools.setImageFromUrl
 
-class CategoryAdapter (private val dataset: List<Category>)
+class CategoryAdapter (private val dataSet: List<Category>)
     : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    class ViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
+    class ViewHolder(private val root: View) : RecyclerView.ViewHolder(root) {
+
+        internal lateinit var binding: ItemCategoryBinding
+
         fun bind(item: Category) {
-            val catImg = root.findViewById<ImageView>(R.id.category_image)
-            val catName = root.findViewById<TextView>(R.id.category_name)
-            Glide.with(root)
-                .load("${item.image}?test=${System.currentTimeMillis()}")
-                .fitCenter()
-                .placeholder(R.drawable.placeholder)
-                .into(catImg)
-            catName.text = item.name
+            binding.categoryImage.setImageFromUrl(item.image, root)
+            binding.categoryName.text = item.getName(root.context)
+            binding.categoryItem.setOnClickListener {
+                val mainActivity = (root.context as MainActivity)
+                mainActivity.changeFragment(ArticlesFragment.newInstance(item))
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val rootView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.category_item, parent, false)
-        return ViewHolder(rootView)
+            .inflate(R.layout.item_category, parent, false)
+        val viewHolder = ViewHolder(rootView)
+        viewHolder.binding = ItemCategoryBinding.bind(rootView)
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dataset[position])
+        holder.bind(dataSet[position])
     }
 
-    override fun getItemCount(): Int = dataset.size
+    override fun getItemCount(): Int = dataSet.size
 
 }

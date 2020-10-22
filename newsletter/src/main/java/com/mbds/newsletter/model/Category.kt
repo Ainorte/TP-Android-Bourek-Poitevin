@@ -1,4 +1,6 @@
 package com.mbds.newsletter.model
 
-data class Category (val name: String, val image: String){
-}
+import androidx.annotation.StringRes
+import java.io.Serializable
+
+data class Category (@StringRes val nameId: Int, val image: String) : Serializable{}

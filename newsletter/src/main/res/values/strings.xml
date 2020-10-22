@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">NewsLetter</string>
+    <string name="app_name">Newsletter</string>
+    <string name="categories">Catégories</string>
+    <string name="politic">Politique</string>
+    <string name="economy">Économie</string>
+    <string name="education">Éducation</string>
+    <string name="pandemic">Pandémie</string>
+    <string name="sciences">Sciences</string>
+    <string name="ecology">Écologie</string>
+    <string name="all">Tous</string>
 </resources>
