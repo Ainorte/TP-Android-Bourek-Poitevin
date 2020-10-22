@@ -19,6 +19,7 @@
         <item name="android:layout_margin">0dp</item>
         <item name="layout_constraintWidth_percent">0.2</item>
         <item name="layout_constraintHeight_percent">0.12</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="orange_button" parent="TextAppearance.AppCompat.Widget.Button.Colored">
@@ -27,6 +28,7 @@
         <item name="android:layout_margin">0dp</item>
         <item name="layout_constraintWidth_percent">0.2</item>
         <item name="layout_constraintHeight_percent">0.12</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="dark_grey_button" parent="TextAppearance.AppCompat.Widget.Button.Colored">
@@ -35,5 +37,6 @@
         <item name="android:layout_margin">0dp</item>
         <item name="layout_constraintWidth_percent">0.2</item>
         <item name="layout_constraintHeight_percent">0.12</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
