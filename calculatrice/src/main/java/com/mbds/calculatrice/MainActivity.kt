@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
             "MINUS" -> addOperation(Operation.MIN)
             "DIV" -> addOperation(Operation.DIV)
             "MULT" -> addOperation(Operation.MUL)
+            "PER" -> addOperation(Operation.PER)
+            "PM" -> addOperation(Operation.PM)
             else -> {
                 binding.form.text = ""
                 binding.res.text = ""
@@ -76,6 +78,8 @@ class MainActivity : AppCompatActivity() {
             Operation.DIV -> primaryOperator / secondaryOperator
             Operation.MUL -> primaryOperator * secondaryOperator
             Operation.NONE -> secondaryOperator
+            Operation.PER -> primaryOperator / 100
+            Operation.PM -> (primaryOperator as Double) * (-1)
         }
 
         return primaryOperator
@@ -86,6 +90,8 @@ class MainActivity : AppCompatActivity() {
         MIN,
         DIV,
         MUL,
+        PER,
+        PM,
         NONE
     }
 
