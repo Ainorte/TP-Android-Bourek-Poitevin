@@ -20,7 +20,7 @@ class CategoryAdapter (private val dataSet: List<Category>)
         internal lateinit var binding: ItemCategoryBinding
 
         fun bind(item: Category) {
-            binding.categoryImage.setImageFromUrl(item.image, root)
+            binding.categoryImage.setImageFromUrl(item.image, R.drawable.placeholder_category, root)
             binding.categoryName.text = item.getName(root.context)
             binding.categoryItem.setOnClickListener {
                 val mainActivity = (root.context as MainActivity)

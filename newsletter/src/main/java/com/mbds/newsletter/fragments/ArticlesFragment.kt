@@ -1,5 +1,6 @@
 package com.mbds.newsletter.fragments
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -64,6 +65,9 @@ class ArticlesFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(view?.context)
             recyclerView.hasFixedSize()
             recyclerView.adapter = articleAdapter
+
+            binding.progressBar.hide()
+            binding.recyclerView.visibility = View.VISIBLE
         }
     }
 

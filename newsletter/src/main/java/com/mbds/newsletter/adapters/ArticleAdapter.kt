@@ -1,5 +1,7 @@
 package com.mbds.newsletter.adapters
 
+import android.text.format.DateUtils
+import android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import com.mbds.newsletter.R
 import com.mbds.newsletter.databinding.ItemArticleBinding
 import com.mbds.newsletter.model.Article
 import com.mbds.newsletter.tools.setImageFromUrl
+import java.util.*
 
 class ArticleAdapter (private val dataSet: List<Article>)
     : RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
@@ -17,15 +20,12 @@ class ArticleAdapter (private val dataSet: List<Article>)
         internal lateinit var binding: ItemArticleBinding
 
         fun bind(item: Article) {
-            /*
-            binding.categoryName.text = item.getName(root.context)
-            binding.categoryItem.setOnClickListener {
-                val mainActivity = (root.context as MainActivity)
-                mainActivity.changeFragment(ArticlesFragment.newInstance(item))
-            }*/
-
             binding.articleTitle.text = item.title
-            binding.articleImage.setImageFromUrl(item.urlToImage, root)
+            binding.articleDescription.text = item.description
+            binding.articleSource.text = item.source.name
+            binding.articleDate.text = DateUtils.getRelativeTimeSpanString(item.publishedAt.time, Date().time, DateUtils.MINUTE_IN_MILLIS,FORMAT_ABBREV_RELATIVE)
+            if(!item.urlToImage.isNullOrBlank())
+                binding.articleImage.setImageFromUrl(item.urlToImage, R.drawable.placeholder_article, root)
         }
     }
 

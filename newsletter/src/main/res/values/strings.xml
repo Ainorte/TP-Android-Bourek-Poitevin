@@ -8,4 +8,5 @@
     <string name="sciences">Sciences</string>
     <string name="ecology">Écologie</string>
     <string name="all">Tous</string>
+    <string name="separator">•</string>
 </resources>

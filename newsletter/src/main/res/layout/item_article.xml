@@ -22,14 +22,83 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@drawable/placeholder"/>
+            app:layout_constraintBottom_toTopOf="@id/article_title"
+            tools:src="@drawable/placeholder_article"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/article_title"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintBottom_toTopOf="@id/article_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/article_image"
+            tools:text="Titre" />
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Titre"
-            android:id="@+id/article_title"
-            app:layout_constraintTop_toBottomOf="@id/article_image"
+            tools:text="Description"
+            android:id="@+id/article_description"
+            app:layout_constraintTop_toBottomOf="@id/article_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/article_source"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="2dp"
+            android:justificationMode="inter_word"
+            />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/article_source"
+            app:layout_constraintTop_toBottomOf="@id/article_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/separator"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="2dp"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:textSize="10sp"
+            tools:text="Source"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/separator"
+            app:layout_constraintTop_toBottomOf="@id/article_description"
+            app:layout_constraintStart_toEndOf="@id/article_source"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/article_date"
+            android:layout_marginHorizontal="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/separator"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:textSize="10sp"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/article_date"
+            app:layout_constraintTop_toBottomOf="@id/article_description"
+            app:layout_constraintStart_toEndOf="@id/separator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/separator"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            tools:text="Date"
+            android:textSize="10sp"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
