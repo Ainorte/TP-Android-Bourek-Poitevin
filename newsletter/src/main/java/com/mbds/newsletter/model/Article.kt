@@ -8,10 +8,11 @@ data class Article(
     val title: String,
     val description: String,
     val url: String,
-    val urlToImage: String,
+    val urlToImage: String?,
     val publishedAt: Date,
     val content: String,
-    val source: Source): Serializable {
+    val source: Source
+): Serializable {
 
     data class Source(val id: String?, val name: String)
 }

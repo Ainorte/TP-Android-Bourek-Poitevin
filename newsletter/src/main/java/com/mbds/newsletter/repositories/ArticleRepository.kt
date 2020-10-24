@@ -14,6 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ArticleRepository {
     private val service: ArticleService
+    private var page = 1
+    private var maxpage = -1
+
     init {
 
         val clientBulider = OkHttpClient.Builder()
@@ -41,7 +44,7 @@ class ArticleRepository {
             val headers = request
                 .headers()
                 .newBuilder()
-                .add("Authorization", "Bearer 63f085dd32274d2daaa83d357bfb74a4")
+                .add("Authorization", "Bearer 5a7700db7c2f43e3bbc789c5a2a655c8")
                 .build()
             request = request
                 .newBuilder()
@@ -52,8 +55,16 @@ class ArticleRepository {
 
     }
 
-    fun list(category: Category): List<Article> {
-        val response =  service.list(category.key).execute()
-        return response.body()?.articles?.toList() ?: emptyList()
+    fun list(category: Category): List<Article>? {
+        if (maxpage < 0 || page < maxpage) {
+            val response = service.list(category.key, page).execute()
+            if (response.isSuccessful) {
+                maxpage = response.body()?.totalResults?.div(20) ?: maxpage
+                page++
+                return response.body()?.articles?.toList() ?: emptyList()
+            }
+            return null
+        }
+        return listOf()
     }
 }

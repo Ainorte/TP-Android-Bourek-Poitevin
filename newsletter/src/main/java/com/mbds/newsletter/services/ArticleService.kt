@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ArticleService {
-    @GET("everything?sortBy=publishedAt")
-    fun list(@Query("q") category: String): Call<NewsApiResponse>
+    @GET("everything?sortBy=publishedAt&language=en")
+    fun list(@Query("q") category: String, @Query("page") page: Int): Call<NewsApiResponse>
 }

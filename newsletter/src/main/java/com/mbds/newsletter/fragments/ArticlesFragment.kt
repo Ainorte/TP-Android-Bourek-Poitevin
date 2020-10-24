@@ -2,7 +2,6 @@
 package com.mbds.newsletter.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mbds.newsletter.R
 import com.mbds.newsletter.adapters.ArticleAdapter
 import com.mbds.newsletter.databinding.FragmentArticlesBinding
+import com.mbds.newsletter.listener.ArticlesScrollListener
 import com.mbds.newsletter.model.Article
 import com.mbds.newsletter.model.Category
 import com.mbds.newsletter.repositories.ArticleRepository
@@ -28,7 +28,12 @@ class ArticlesFragment : Fragment() {
     lateinit var binding: FragmentArticlesBinding
     private var category: Category? = null
     private val articleRepository = ArticleRepository()
-    private var error_snackbar: Snackbar? = null
+    private val articleAdapter = ArticleAdapter(mutableListOf())
+    private val articlesScrollListener = ArticlesScrollListener()
+
+    private var isLoading = false
+
+    private var errorSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +51,30 @@ class ArticlesFragment : Fragment() {
     ): View? {
         binding = FragmentArticlesBinding.inflate(inflater, container, false)
 
+        val recyclerView = binding.recyclerView
+
+        recyclerView.layoutManager = LinearLayoutManager(view?.context)
+        recyclerView.hasFixedSize()
+        recyclerView.adapter = articleAdapter
+
+        articlesScrollListener.loadMoreCallback = {
+            launchQuery()
+        }
+
         launchQuery()
 
         return binding.root
     }
 
     private fun launchQuery() {
-        lifecycleScope.launch {
-            binding.recyclerView.visibility = View.INVISIBLE
-            binding.progressBar.show()
-            getData()
+        if (!isLoading) {
+            isLoading = true
+            lifecycleScope.launch {
+                articleAdapter.dataSet.add(null)
+                articleAdapter.notifyItemInserted(articleAdapter.itemCount - 1)
+                binding.recyclerView.removeOnScrollListener(articlesScrollListener)
+                getData()
+            }
         }
     }
 
@@ -64,7 +83,7 @@ class ArticlesFragment : Fragment() {
         {
             if (context?.isOnline() == true) {
                 val result = articleRepository.list(category ?: Category(0, "", ""))
-                if (result.isNotEmpty()) {
+                if (result != null) {
                     bindData(result)
                 } else {
                     displayError(R.string.request_error)
@@ -78,40 +97,40 @@ class ArticlesFragment : Fragment() {
     private suspend fun bindData(result: List<Article>) {
         withContext(Dispatchers.Main)
         {
-            Log.println(Log.DEBUG,"bind data", result.toString())
-            val recyclerView = binding.recyclerView
-            val articleAdapter = ArticleAdapter(result)
+            articleAdapter.dataSet.removeLast()
+            articleAdapter.notifyItemRemoved(articleAdapter.itemCount)
 
-            recyclerView.layoutManager = LinearLayoutManager(view?.context)
-            recyclerView.hasFixedSize()
-            recyclerView.adapter = articleAdapter
+            articleAdapter.dataSet.addAll(result)
+            articleAdapter.notifyDataSetChanged()
 
-            binding.progressBar.hide()
-            binding.recyclerView.visibility = View.VISIBLE
+            binding.recyclerView.addOnScrollListener(articlesScrollListener)
+            isLoading = false
         }
     }
 
     private suspend fun displayError(@StringRes errorId: Int) {
         withContext(Dispatchers.Main)
         {
-            error_snackbar = Snackbar.make(
-                binding.progressBar,
+            errorSnackBar = Snackbar.make(
+                binding.root,
                 errorId,
                 BaseTransientBottomBar.LENGTH_INDEFINITE
             )
-            error_snackbar?.setAction(R.string.retry) {
+            errorSnackBar?.setAction(R.string.retry) {
                 launchQuery()
             }
-            error_snackbar?.show()
+            errorSnackBar?.show()
 
-            binding.recyclerView.visibility = View.INVISIBLE
-            binding.progressBar.hide()
+            articleAdapter.dataSet.removeLast()
+            articleAdapter.notifyItemRemoved(articleAdapter.itemCount)
+            binding.recyclerView.addOnScrollListener(articlesScrollListener)
+            isLoading = false
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        error_snackbar?.dismiss()
+        errorSnackBar?.dismiss()
     }
 
     companion object {
