@@ -1,26 +1,37 @@
 package com.mbds.newsletter.repositories
 
+import com.mbds.newsletter.BuildConfig
 import com.mbds.newsletter.model.Article
 import com.mbds.newsletter.model.Category
 import com.mbds.newsletter.services.ArticleService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 class ArticleRepository {
     private val service: ArticleService
     init {
-        val client = OkHttpClient.Builder()
+
+        val clientBulider = OkHttpClient.Builder()
             .addInterceptor(AuthenticationInterceptor())
-            .build()
+
+        if (BuildConfig.DEBUG) {
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            clientBulider.addInterceptor(logging)
+        }
+        val client = clientBulider.build()
 
         val retrofit = Retrofit.Builder().apply {
-                baseUrl("https://newsapi.org/v2/")
-                client(client)
-                addConverterFactory(GsonConverterFactory.create())
+            baseUrl("https://newsapi.org/v2/")
+            client(client)
+            addConverterFactory(GsonConverterFactory.create())
         }.build()
+
         service = retrofit.create(ArticleService::class.java)
     }
 
